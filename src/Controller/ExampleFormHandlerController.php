@@ -23,10 +23,14 @@ class ExampleFormHandlerController extends AbstractController
         $form = $this->createForm(ExampleType::class, $example);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            dd('all is good with your form');
+        if (!($form->isSubmitted() && $form->isValid())) {
+            return $this->forward(ExampleFormController::class);
         }
 
-        return $this->forward(ExampleFormController::class);
+        dd('All is ok now');
+
+        // @TODO: Save to database
+        //$this->addFlash('success', 'Blog created!');
+        //return $this->redirectToRoute('app_home_index');
     }
 }
